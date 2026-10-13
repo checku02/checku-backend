@@ -107,3 +107,36 @@ class TestAuthHU1(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+    def test_login_correcto_de_profesor_retorna_200_y_su_rol(self):
+        profesor = MagicMock()
+        profesor.id = 7
+        profesor.nombre = "Profesor de prueba"
+        profesor.matricula = "DOCENTE01"
+        profesor.email = "docente@example.com"
+        profesor.check_password.return_value = True
+        profesor.to_dict.return_value = {
+            "id": 7,
+            "nombre": "Profesor de prueba",
+            "matricula": "DOCENTE01",
+            "email": "docente@example.com",
+        }
+
+        Administrador.query.filter.return_value.first.return_value = None
+        Profesor.query.filter.return_value.first.return_value = profesor
+
+        respuesta = self.client.post(
+            "/api/auth/login",
+            json={
+                "identificador": "DOCENTE01",
+                "password": "ClaveValida123",
+                "origen": "web",
+            },
+        )
+
+        datos = respuesta.get_json()
+        self.assertEqual(respuesta.status_code, 200)
+        self.assertTrue(datos["success"])
+        self.assertEqual(datos["role"], "profesor")
+        self.assertEqual(datos["dashboard"], "/dashboard")
+        self.assertIn("access_token", datos)
