@@ -105,9 +105,6 @@ class TestAuthHU1(unittest.TestCase):
             "ALUMNO_WEB_RESTRICTED",
         )
 
-if __name__ == "__main__":
-    unittest.main()
-
     def test_login_correcto_de_profesor_retorna_200_y_su_rol(self):
         profesor = MagicMock()
         profesor.id = 7
@@ -140,3 +137,7 @@ if __name__ == "__main__":
         self.assertEqual(datos["role"], "profesor")
         self.assertEqual(datos["dashboard"], "/dashboard")
         self.assertIn("access_token", datos)
+
+if __name__ == "__main__":
+    unittest.main()
+
