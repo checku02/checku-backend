@@ -140,6 +140,7 @@ def create_app(config_class=Config):
                 'alumno': '/api/alumno',
                 'justificantes': '/api/justificantes',
                 'health': '/api/health'
+                
             }
         }), 200
 
