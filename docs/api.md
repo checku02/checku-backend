@@ -83,3 +83,42 @@ Base URL: `http://localhost:5000`
 - Los tokens JWT tienen una expiración configurada en `JWT_EXPIRATION_HOURS` (por defecto 24 horas).
 - Los alumnos **no** pueden acceder al portal web (`origen: "web"` → 403).
 - Los códigos de error estandarizados incluyen: `TOKEN_EXPIRED`, `INVALID_TOKEN`, `UNAUTHORIZED`, `ALUMNO_WEB_RESTRICTED`.
+
+---
+
+# CheckU API – Grupos, Alumnos y Docentes (HU2 y HU3)
+
+## HU2 – Grupos y Alumnos
+
+### GET /api/profesor/grupos
+- **Rol:** profesor
+- **Descripción:** Lista los grupos del docente autenticado
+- **Códigos:** 200, 401, 403
+
+### POST /api/profesor/grupos
+- **Rol:** profesor
+- **Body:** nombre, materia, cuatrimestre, etc.
+- **Códigos:** 201, 400, 401, 403, 409 (duplicado)
+
+### GET /api/profesor/grupos/<id>/alumnos
+- **Rol:** profesor
+- **Códigos:** 200, 401, 403, 404
+
+### POST /api/profesor/grupos/<id>/alumnos
+- **Rol:** profesor
+- **Códigos:** 201, 400, 401, 403, 404, 409 (alumno ya inscrito)
+
+## HU3 – Docentes y asignaciones
+
+### GET /api/admin/docentes
+- **Rol:** admin
+- **Códigos:** 200, 401, 403
+
+### POST /api/admin/docentes
+- **Rol:** admin
+- **Códigos:** 201, 400, 401, 403, 409 (duplicado)
+
+### POST /api/admin/asignaciones
+- **Rol:** admin
+- **Descripción:** Asigna docente-materia-grupo
+- **Códigos:** 201, 400, 401, 403, 404, 409
